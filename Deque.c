@@ -43,8 +43,9 @@ bool deque_push_front(Deque *deque, int item) {
 
     if (deque->front == 0) {
         deque->front = MAX - 1;
+    } else {
+        deque->front = deque->front - 1;
     }
-    deque->front = (deque->front - 1) % MAX;
     deque->items[deque->front] = item;
     deque->len++;
     return true;
@@ -68,9 +69,10 @@ bool deque_pop_back(Deque *deque, int *item) {
     }
     if (deque->rear == 0) {
         deque->rear = MAX - 1;
+    } else {
+        deque->rear = deque->rear - 1;
     }
 
-    deque->rear = (deque->rear - 1) % MAX;
     *item = deque->items[deque->rear];
     deque->len--;
     return true;
