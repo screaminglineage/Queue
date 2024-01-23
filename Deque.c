@@ -4,9 +4,6 @@
 
 #include "Deque.h"
 
-#define MAX 8
-
-
 
 Deque deque_init() {
     return (Deque){0};
@@ -19,9 +16,11 @@ void deque_del(Deque *d) {
 }
 
 void deque_iter(Deque *deque) {
-    for (size_t i = deque->front; i != deque->rear; i = (i + 1) % MAX) {
-        printf("%d ", deque->items[i]);
+    for (size_t i = 0; i < deque->len; i++) {
+        size_t index = (deque->front + i) % MAX;
+        printf("%d ", deque->items[index]);
     }
+    putchar('\n');
 }
 
 
