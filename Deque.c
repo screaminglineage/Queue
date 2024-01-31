@@ -21,7 +21,7 @@ void deque_del(Deque *d) {
 
 void deque_iter(Deque *deque) {
     for (size_t i = 0; i < deque->len; i++) {
-        size_t index = (deque->front + i) % (deque->capacity + 1);
+        size_t index = (deque->front + i) % deque->capacity;
         printf("%d ", deque->items[index]);
     }
     putchar('\n');
@@ -54,8 +54,12 @@ bool deque_push_back(Deque *deque, int item) {
     }
 
     deque->items[deque->rear] = item;
-    deque->rear = (deque->rear + 1) % (deque->capacity + 1);
     deque->len++;
+    if (deque->len == deque->capacity) {
+        deque->rear = (deque->rear + 1) % (deque->capacity + 1);
+    } else {
+        deque->rear = (deque->rear + 1) % deque->capacity;
+    }
     return true;
 }
 
@@ -81,7 +85,7 @@ bool deque_pop_front(Deque *deque, int *item) {
     }
 
     *item = deque->items[deque->front];
-    deque->front = (deque->front + 1) % (deque->capacity + 1);
+    deque->front = (deque->front + 1) % deque->capacity;
     deque->len--;
     return true;
 }
