@@ -110,6 +110,10 @@ void deque_test() {
   deque_push_front(&d, 68);
   deque_push_front(&d, 73);
 
+  for (int i=0; i<8; i++) {
+    deque_push_back(&d, i);
+  }
+
   deque_iter(&d);
 
   deque_del(&d);

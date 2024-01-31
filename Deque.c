@@ -33,13 +33,15 @@ void deque_resize(Deque *deque) {
     int *temp = malloc(size * new_capacity);
     assert(temp && "Critial Failure: Please refer to https://downloadmoreram.com/");
 
-    if (deque->front < deque->rear) {
-        memcpy(temp, &deque->items[deque->front], size * deque->len);
+    if (deque->len > 0) {
+        if (deque->front < deque->rear) {
+            memcpy(temp, &deque->items[deque->front], size * deque->len);
 
-    } else if (deque->front > deque->rear) {
-        size_t elems_at_end = deque->capacity - deque->front;
-        memcpy(temp, &deque->items[deque->front], size * elems_at_end);
-        memcpy(&temp[elems_at_end], &deque->items[0], size * deque->rear);
+        } else if (deque->front >= deque->rear) {
+            size_t elems_at_end = deque->capacity - deque->front;
+            memcpy(temp, &deque->items[deque->front], size * elems_at_end);
+            memcpy(&temp[elems_at_end], &deque->items[0], size * deque->rear);
+        }
     }
     free(deque->items);
     deque->items = temp;
