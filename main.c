@@ -52,8 +52,8 @@ void deque_test(void);
 void queue_test(void);
 
 int main() {
-  queue_test();
-  putchar('\n');
+  // queue_test();
+  // putchar('\n');
 
   deque_test();
   putchar('\n');

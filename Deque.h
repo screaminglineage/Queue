@@ -4,13 +4,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 
-#define MAX 512
-
 typedef struct {
-    int items[MAX];
+    int *items;
     size_t len;
     size_t front;
     size_t rear;    
+    size_t capacity;
 } Deque;
 
 Deque deque_init();
