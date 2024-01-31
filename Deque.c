@@ -31,7 +31,7 @@ void deque_resize(Deque *deque) {
     size_t new_capacity = (deque->capacity == 0)? 1: deque->capacity * 2;
     size_t size = sizeof(deque->items[0]);
     int *temp = malloc(size * new_capacity);
-    assert(temp && "Critial Failure: Please refer to https://downloadmoreram.com/");
+    assert(temp && "Critical Failure: Please refer to https://downloadmoreram.com/");
 
     if (deque->len > 0) {
         if (deque->front < deque->rear) {
@@ -50,7 +50,7 @@ void deque_resize(Deque *deque) {
     deque->capacity = new_capacity;
 }
 
-bool deque_push_back(Deque *deque, int item) {
+void deque_push_back(Deque *deque, int item) {
     if (deque->len == deque->capacity) {
         deque_resize(deque);
     }
@@ -62,10 +62,9 @@ bool deque_push_back(Deque *deque, int item) {
     } else {
         deque->rear = (deque->rear + 1) % deque->capacity;
     }
-    return true;
 }
 
-bool deque_push_front(Deque *deque, int item) {
+void deque_push_front(Deque *deque, int item) {
     if (deque->len == deque->capacity) {
         deque_resize(deque);
     }
@@ -77,9 +76,7 @@ bool deque_push_front(Deque *deque, int item) {
     }
     deque->items[deque->front] = item;
     deque->len++;
-    return true;
 }
-
 
 bool deque_pop_front(Deque *deque, int *item) {
     if (deque->len == 0) {
@@ -96,6 +93,7 @@ bool deque_pop_back(Deque *deque, int *item) {
     if (deque->len == 0) {
         return false;
     }
+
     if (deque->rear == 0) {
         deque->rear = deque->capacity - 1;
     } else {
