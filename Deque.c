@@ -58,6 +58,8 @@ void deque_push_back(Deque *deque, int item) {
     deque->items[deque->rear] = item;
     deque->len++;
     if (deque->len == deque->capacity) {
+        // set rear to 1 after last element if queue is full
+        // and it is incremented beyond the length
         deque->rear = (deque->rear + 1) % (deque->capacity + 1);
     } else {
         deque->rear = (deque->rear + 1) % deque->capacity;
@@ -69,11 +71,7 @@ void deque_push_front(Deque *deque, int item) {
         deque_resize(deque);
     }
 
-    if (deque->front == 0) {
-        deque->front = deque->capacity - 1;
-    } else {
-        deque->front = deque->front - 1;
-    }
+    deque->front = (deque->front - 1 + deque->capacity) % deque->capacity;
     deque->items[deque->front] = item;
     deque->len++;
 }
@@ -94,11 +92,7 @@ bool deque_pop_back(Deque *deque, int *item) {
         return false;
     }
 
-    if (deque->rear == 0) {
-        deque->rear = deque->capacity - 1;
-    } else {
-        deque->rear = deque->rear - 1;
-    }
+    deque->rear = (deque->rear - 1 + deque->capacity) % deque->capacity;
 
     *item = deque->items[deque->rear];
     deque->len--;

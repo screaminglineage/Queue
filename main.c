@@ -105,6 +105,11 @@ void deque_test() {
   deque_push_back(&d, 100);
   deque_push_back(&d, 267);
 
+  deque_pop_back(&d, &x);
+  printf("%d \n", x);
+  deque_pop_back(&d, &x);
+  printf("%d \n", x);
+
   deque_push_front(&d, 13);
   deque_push_front(&d, 27);
   deque_push_front(&d, 68);
