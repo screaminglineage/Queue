@@ -19,15 +19,7 @@ void deque_del(Deque *d) {
     d->capacity = 0;
 }
 
-void deque_iter(Deque *deque) {
-    for (size_t i = 0; i < deque->len; i++) {
-        size_t index = (deque->front + i) % deque->capacity;
-        printf("%d ", deque->items[index]);
-    }
-    putchar('\n');
-}
-
-void deque_resize(Deque *deque) {
+static inline void deque_resize(Deque *deque) {
     size_t new_capacity = (deque->capacity == 0)? 1: deque->capacity * 2;
     size_t size = sizeof(deque->items[0]);
     int *temp = malloc(size * new_capacity);
@@ -92,6 +84,7 @@ bool deque_pop_back(Deque *deque, int *item) {
         return false;
     }
 
+    // ensures that -1 wraps around to (deque->capacity - 1)
     deque->rear = (deque->rear - 1 + deque->capacity) % deque->capacity;
 
     *item = deque->items[deque->rear];
@@ -99,8 +92,33 @@ bool deque_pop_back(Deque *deque, int *item) {
     return true;
 }
 
+bool deque_peek_front(Deque *deque, int *item) {
+    if (deque->len == 0) {
+        return false;
+    }
+    *item = deque->items[deque->front];
+    return true;
+}
 
+bool deque_peek_back(Deque *deque, int *item) {
+    if (deque->len == 0) {
+        return false;
+    }
+    // ensures that -1 wraps around to (deque->capacity - 1)
+    *item = deque->items[(deque->rear - 1 + deque->capacity) % deque->capacity];
+    return true;
+}
 
+bool deque_iter(Deque *deque) {
+    if (deque->len == 0) {
+        return false;
+    }
 
-
+    for (size_t i = 0; i < deque->len; i++) {
+        size_t index = (deque->front + i) % deque->capacity;
+        printf("%d ", deque->items[index]);
+    }
+    putchar('\n');
+    return true;
+}
 
