@@ -27,7 +27,7 @@ static inline void deque_resize(Deque *deque) {
         if (deque->front < back) {
             memcpy(temp, &deque->items[deque->front], size * deque->len);
 
-        } else if (deque->front >= back) {
+        } else {
             size_t elems_at_end = deque->capacity - deque->front;
             memcpy(temp, &deque->items[deque->front], size * elems_at_end);
             memcpy(&temp[elems_at_end], &deque->items[0], size * back);
@@ -110,7 +110,7 @@ bool deque_peek_back(Deque *deque, int *item) {
     return true;
 }
 
-bool deque_iter(Deque *deque) {
+bool deque_print(Deque *deque) {
     if (deque->len == 0) {
         return false;
     }

@@ -32,6 +32,6 @@ bool deque_pop_front(Deque *deque, int *item);
 bool deque_pop_back(Deque *deque, int *item);
 bool deque_peek_front(Deque *deque, int *item);
 bool deque_peek_back(Deque *deque, int *item);
-bool deque_iter(Deque *deque);
+bool deque_print(Deque *deque);
 
 #endif // DEQUE_H
