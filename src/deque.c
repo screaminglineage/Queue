@@ -24,7 +24,7 @@ static inline void deque_resize(Deque *deque) {
 
     size_t back = (deque->capacity == 0) ? 0 : deque_get_back(deque);
     if (deque->len > 0) {
-        if (deque->front < back) {
+        if (deque->front < back || deque->front == 0) {
             memcpy(temp, &deque->items[deque->front], size * deque->len);
 
         } else {
