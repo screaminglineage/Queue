@@ -5,7 +5,7 @@ Simple dyanamically allocated single ended queue in C
 ## Build Instructions
 
 ```
-gcc src/*c -o example && ./example
+gcc src/*.c example.c -o example && ./example
 ```
 
 ## TODO

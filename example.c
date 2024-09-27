@@ -1,5 +1,5 @@
-#include "deque.h"
-#include "queue.h"
+#include "src/deque.h"
+#include "src/queue.h"
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
