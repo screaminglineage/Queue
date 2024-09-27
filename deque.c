@@ -1,44 +1,41 @@
+#include <assert.h>
+#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdbool.h>
 #include <string.h>
-#include <assert.h>
 
-#include "Deque.h"
+#include "deque.h"
 
-
-Deque deque_init() {
-    return (Deque){0};
-}
-
-void deque_del(Deque *d) {
-    free(d->items);
-    d->len = 0;
-    d->front = 0;
-    d->rear = 0;
-    d->capacity = 0;
+// returns the back of the deque
+// make sure that capacity isnt 0 when called
+static inline size_t deque_get_back(Deque *deque) {
+    return (deque->front + deque->len) % deque->capacity;
 }
 
 static inline void deque_resize(Deque *deque) {
-    size_t new_capacity = (deque->capacity == 0)? 1: deque->capacity * 2;
+    size_t new_capacity = (deque->capacity == 0)
+                              ? DEQUE_INITIAL_CAPACITY
+                              : deque->capacity * DEQUE_GROWTH_FACTOR;
+
     size_t size = sizeof(deque->items[0]);
     int *temp = malloc(size * new_capacity);
-    assert(temp && "Critical Failure: Please refer to https://downloadmoreram.com/");
+    assert(temp && "Error: couldnt allocate memory, please refer to "
+                   "https://downloadmoreram.com/");
 
+    size_t back = (deque->capacity == 0) ? 0 : deque_get_back(deque);
     if (deque->len > 0) {
-        if (deque->front < deque->rear) {
+        if (deque->front < back) {
             memcpy(temp, &deque->items[deque->front], size * deque->len);
 
-        } else if (deque->front >= deque->rear) {
+        } else {
             size_t elems_at_end = deque->capacity - deque->front;
             memcpy(temp, &deque->items[deque->front], size * elems_at_end);
-            memcpy(&temp[elems_at_end], &deque->items[0], size * deque->rear);
+            memcpy(&temp[elems_at_end], &deque->items[0], size * back);
         }
     }
     free(deque->items);
     deque->items = temp;
     deque->front = 0;
-    deque->rear = deque->len;
     deque->capacity = new_capacity;
 }
 
@@ -47,14 +44,15 @@ void deque_push_back(Deque *deque, int item) {
         deque_resize(deque);
     }
 
-    deque->items[deque->rear] = item;
+    size_t back = deque_get_back(deque);
+    deque->items[back] = item;
     deque->len++;
     if (deque->len == deque->capacity) {
         // set rear to 1 after last element if queue is full
         // and it is incremented beyond the length
-        deque->rear = (deque->rear + 1) % (deque->capacity + 1);
+        back = (back + 1) % (deque->capacity + 1);
     } else {
-        deque->rear = (deque->rear + 1) % deque->capacity;
+        back = (back + 1) % deque->capacity;
     }
 }
 
@@ -84,10 +82,12 @@ bool deque_pop_back(Deque *deque, int *item) {
         return false;
     }
 
-    // ensures that -1 wraps around to (deque->capacity - 1)
-    deque->rear = (deque->rear - 1 + deque->capacity) % deque->capacity;
+    size_t back = deque_get_back(deque);
 
-    *item = deque->items[deque->rear];
+    // ensures that -1 wraps around to (deque->capacity - 1)
+    back = (back - 1 + deque->capacity) % deque->capacity;
+
+    *item = deque->items[back];
     deque->len--;
     return true;
 }
@@ -105,11 +105,12 @@ bool deque_peek_back(Deque *deque, int *item) {
         return false;
     }
     // ensures that -1 wraps around to (deque->capacity - 1)
-    *item = deque->items[(deque->rear - 1 + deque->capacity) % deque->capacity];
+    *item = deque->items[(deque_get_back(deque) - 1 + deque->capacity) %
+                         deque->capacity];
     return true;
 }
 
-bool deque_iter(Deque *deque) {
+bool deque_print(Deque *deque) {
     if (deque->len == 0) {
         return false;
     }
@@ -121,4 +122,3 @@ bool deque_iter(Deque *deque) {
     putchar('\n');
     return true;
 }
-
