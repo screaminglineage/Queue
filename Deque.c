@@ -6,16 +6,21 @@
 
 #include "Deque.h"
 
+// returns the back of the deque
+// make sure that capacity isnt 0 when called
 static inline size_t deque_get_back(Deque *deque) {
     return (deque->front + deque->len) % deque->capacity;
 }
 
 static inline void deque_resize(Deque *deque) {
-    size_t new_capacity = (deque->capacity == 0) ? 1 : deque->capacity * 2;
+    size_t new_capacity = (deque->capacity == 0)
+                              ? DEQUE_INITIAL_CAPACITY
+                              : deque->capacity * DEQUE_GROWTH_FACTOR;
+
     size_t size = sizeof(deque->items[0]);
     int *temp = malloc(size * new_capacity);
-    assert(temp &&
-           "Critical Failure: Please refer to https://downloadmoreram.com/");
+    assert(temp && "Error: couldnt allocate memory, please refer to "
+                   "https://downloadmoreram.com/");
 
     size_t back = (deque->capacity == 0) ? 0 : deque_get_back(deque);
     if (deque->len > 0) {

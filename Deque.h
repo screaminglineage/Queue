@@ -4,6 +4,9 @@
 #include <stdbool.h>
 #include <malloc.h>
 
+#define DEQUE_INITIAL_CAPACITY 4
+#define DEQUE_GROWTH_FACTOR 2
+
 typedef struct {
     int *items;
     size_t len;
