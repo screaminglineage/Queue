@@ -1,4 +1,4 @@
-#include "Deque.h"
+#include "deque.h"
 #include <assert.h>
 #include <stdbool.h>
 #include <stdio.h>
