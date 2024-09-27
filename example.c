@@ -1,4 +1,4 @@
-#include "src/int_deque.h"
+#include "src/deque.h"
 #include "src/queue.h"
 #include <assert.h>
 #include <stdbool.h>
@@ -38,6 +38,26 @@ void queue_test() {
         printf("%d, len = %zu\n", x, queue.rear - queue.front);
     }
     queue_del(&queue);
+}
+
+typedef struct {
+    int *items;
+    size_t len;
+    size_t front;
+    size_t capacity;
+} Deque;
+
+bool deque_print(Deque *deque) {
+    if (deque->len == 0) {
+        return false;
+    }
+
+    for (size_t i = 0; i < deque->len; i++) {
+        size_t index = (deque->front + i) % deque->capacity;
+        printf("%d ", deque->items[index]);
+    }
+    putchar('\n');
+    return true;
 }
 
 void deque_test() {

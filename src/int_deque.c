@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "deque.h"
+#include "int_deque.h"
 
 // returns the back of the deque
 // make sure that capacity isnt 0 when called
