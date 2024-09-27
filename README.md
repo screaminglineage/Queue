@@ -5,7 +5,7 @@ Simple dyanamically allocated single ended queue in C
 ## Build Instructions
 
 ```
-gcc deque.c main.c -o main && ./example
+gcc src/*c -o example && ./example
 ```
 
 ## TODO
