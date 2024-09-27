@@ -3,7 +3,7 @@
 Simple dyanamically allocated queues in C
 
 The Deque implementation with macros can be used as a generic Deque with any data type.
-Just `#include "src/deque.h"` and define the the Deque struct as follows, `items` can be of any type.
+Just `#include "src/deque.h"` and declare the the Deque struct as follows, `items` can be of any type.
 
 ```c
 typedef struct {
